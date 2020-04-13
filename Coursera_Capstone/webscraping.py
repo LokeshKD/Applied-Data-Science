@@ -44,12 +44,17 @@ def getWIKITable(url):
     df['Neighborhood'] = df['Neighborhood'].str.replace(' /', ',')
     clean_df = df.loc[df['Borough'] != 'Not assigned', :]
     clean_df.reset_index(drop=True,inplace=True)
-    print(clean_df)
-    print(clean_df.shape)
+    #print(clean_df)
+    #print(clean_df.shape)
 
+    df2 = pd.read_csv(coordinates_file)
+    join_df = clean_df.join(df2.set_index('Postal Code'), on='Postal code')
+
+    print(join_df) 
+    #print(clean_df.shape)
 
 if __name__ == '__main__':
     url = 'https://en.wikipedia.org/wiki/List_of_postal_codes_of_Canada:_M'
+    coordinates_file = './Geospatial_data.csv'
     #getTables(url)
-    getWIKITable(url)
-
+    df = getWIKITable(url)
